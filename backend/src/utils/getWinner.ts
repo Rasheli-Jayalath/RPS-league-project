@@ -4,6 +4,7 @@ export function getWinner(match: any): string | null {
 
   if (a === b) return null;
 
+  //select the winner 
   if (
     (a === "ROCK" && b === "SCISSORS") ||
     (a === "SCISSORS" && b === "PAPER") ||

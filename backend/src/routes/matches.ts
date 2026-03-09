@@ -1,5 +1,6 @@
 import express from "express";
 import { getMatches } from "../services/rpsApi";
+import { getWinner } from "../utils/getWinner";
 
 const router = express.Router();
 
@@ -9,10 +10,15 @@ router.get("/latest", async (req, res) => {
 
     const latestMatches = [...matches]
       .sort((a: any, b: any) => b.time - a.time)
-      .slice(0, 20);
+      .slice(0, 20)
+      .map((match: any) => ({
+        ...match,
+        winner: getWinner(match),
+      }));
 
     res.json(latestMatches);
   } catch (error) {
+    console.error("LATEST ROUTE ERROR:", error);
     res.status(500).json({ message: "Error fetching matches" });
   }
 });

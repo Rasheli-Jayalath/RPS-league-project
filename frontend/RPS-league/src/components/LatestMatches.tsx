@@ -4,6 +4,7 @@ import api from "../api";
 type Match = {
   gameId: string;
   time: number;
+  winner: string | null;
   playerA: {
     name: string;
     played: string;
@@ -29,8 +30,9 @@ export default function LatestMatches() {
 
       {matches.map((m) => (
         <div key={m.gameId}>
-          {m.playerA.name} ({m.playerA.played}) vs{" "}
-          {m.playerB.name} ({m.playerB.played})
+          {m.playerA.name} ({m.playerA.played}) vs {m.playerB.name} ({m.playerB.played})
+          {" — Winner: "}
+          {m.winner ?? "Draw"}
         </div>
       ))}
     </div>
