@@ -42,4 +42,34 @@ router.get("/player/:name", async (req, res) => {
   }
 });
 
+router.get("/date/:date", async (req, res) => {
+  try {
+    const { date } = req.params;
+
+    const selectedDate = new Date(date);
+    const startOfDay = new Date(selectedDate);
+    const endOfDay = new Date(selectedDate);
+
+    startOfDay.setHours(0, 0, 0, 0);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    const matches = await getMatches();
+
+    const filteredMatches = matches
+      .filter((match: any) => {
+        const matchDate = new Date(match.time);
+        return matchDate >= startOfDay && matchDate <= endOfDay;
+      })
+      .map((match: any) => ({
+        ...match,
+        winner: getWinner(match),
+      }));
+
+    res.json(filteredMatches);
+  } catch (error) {
+    console.error("DATE ROUTE ERROR:", error);
+    res.status(500).json({ message: "Error fetching matches by date" });
+  }
+});
+
 export default router;

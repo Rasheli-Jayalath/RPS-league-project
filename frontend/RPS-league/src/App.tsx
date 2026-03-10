@@ -2,6 +2,7 @@ import LatestMatches from "./components/LatestMatches";
 import PlayerSearch from "./components/PlayerSearch";
 import TodayLeaderboard from "./components/TodayLeaderboard";
 import HistoricalLeaderboard from "./components/HistoricalLeaderboard";
+import MatchesByDate from "./components/MatchesByDate";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <PlayerSearch />
       <TodayLeaderboard />
       <HistoricalLeaderboard />
+      <MatchesByDate />
     </div>
   );
 }
