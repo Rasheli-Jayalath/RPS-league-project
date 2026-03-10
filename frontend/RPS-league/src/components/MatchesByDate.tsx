@@ -32,25 +32,31 @@ export default function MatchesByDate() {
 
   return (
     <div>
-      <h2>Match Results for a Given Day</h2>
+      <h2>Matches by Date</h2>
+      <p className="section-subtitle">
+        View all match results for a selected day.
+      </p>
 
       <input
         type="date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
       />
-
       <button onClick={searchByDate}>Show Matches</button>
 
       <div>
-        {matches.map((match) => (
-          <div key={match.gameId}>
-            {match.playerA.name} ({match.playerA.played}) vs{" "}
-            {match.playerB.name} ({match.playerB.played})
-            {" — Winner: "}
-            {match.winner ?? "Draw"}
-          </div>
-        ))}
+        {matches.length === 0 ? (
+          <p className="empty-message">Select a date to view matches.</p>
+        ) : (
+          matches.map((match) => (
+            <div className="match-item" key={match.gameId}>
+              <strong>{match.playerA.name}</strong> ({match.playerA.played}) vs{" "}
+              <strong>{match.playerB.name}</strong> ({match.playerB.played})
+              {" — Winner: "}
+              <strong>{match.winner ?? "Draw"}</strong>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

@@ -27,14 +27,22 @@ export default function LatestMatches() {
   return (
     <div>
       <h2>Latest Matches</h2>
+      <p className="section-subtitle">
+        Most recent Rock-Paper-Scissors battles and winners.
+      </p>
 
-      {matches.map((m) => (
-        <div key={m.gameId}>
-          {m.playerA.name} ({m.playerA.played}) vs {m.playerB.name} ({m.playerB.played})
-          {" — Winner: "}
-          {m.winner ?? "Draw"}
-        </div>
-      ))}
+      {matches.length === 0 ? (
+        <p className="empty-message">No matches available.</p>
+      ) : (
+        matches.map((m) => (
+          <div className="match-item" key={m.gameId}>
+            <strong>{m.playerA.name}</strong> ({m.playerA.played}) vs{" "}
+            <strong>{m.playerB.name}</strong> ({m.playerB.played})
+            {" — Winner: "}
+            <strong>{m.winner ?? "Draw"}</strong>
+          </div>
+        ))
+      )}
     </div>
   );
 }

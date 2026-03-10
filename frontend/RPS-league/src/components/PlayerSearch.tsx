@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api";
 
 type Match = {
   gameId: string;
   time: number;
+  winner: string | null;
   playerA: {
     name: string;
     played: string;
@@ -14,43 +15,34 @@ type Match = {
   };
 };
 
-export default function PlayerSearch() {
-  const [playerName, setPlayerName] = useState("");
+export default function LatestMatches() {
   const [matches, setMatches] = useState<Match[]>([]);
 
-  const searchPlayer = async () => {
-    try {
-    //   const response = await api.get(`/matches/player/${playerName}`);
-      const response = await api.get(
-            `/matches/player/${encodeURIComponent(playerName)}`
-        );
-      setMatches(response.data);
-    } catch (error) {
-      console.error("Error fetching player matches:", error);
-    }
-  };
+  useEffect(() => {
+    api.get("/matches/latest")
+      .then((res) => setMatches(res.data))
+      .catch((err) => console.error("Error fetching matches:", err));
+  }, []);
 
   return (
     <div>
-      <h2>Search Matches by Player</h2>
+      <h2>Latest Matches</h2>
+      <p className="section-subtitle">
+        Most recent Rock-Paper-Scissors battles and winners.
+      </p>
 
-      <input
-        type="text"
-        placeholder="Enter player name"
-        value={playerName}
-        onChange={(e) => setPlayerName(e.target.value)}
-      />
-
-      <button onClick={searchPlayer}>Search</button>
-
-      <div>
-        {matches.map((match) => (
-          <div key={match.gameId}>
-            {match.playerA.name} ({match.playerA.played}) vs{" "}
-            {match.playerB.name} ({match.playerB.played})
+      {matches.length === 0 ? (
+        <p className="empty-message">No matches available.</p>
+      ) : (
+        matches.map((m) => (
+          <div className="match-item" key={m.gameId}>
+            <strong>{m.playerA.name}</strong> ({m.playerA.played}) vs{" "}
+            <strong>{m.playerB.name}</strong> ({m.playerB.played})
+            {" — Winner: "}
+            <strong>{m.winner ?? "Draw"}</strong>
           </div>
-        ))}
-      </div>
+        ))
+      )}
     </div>
   );
 }

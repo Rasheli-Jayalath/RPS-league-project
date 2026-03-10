@@ -18,12 +18,19 @@ export default function TodayLeaderboard() {
   return (
     <div>
       <h2>Today's Leaderboard</h2>
+      <p className="section-subtitle">
+        Top players ranked by total wins today.
+      </p>
 
-      {leaders.map((entry, index) => (
-        <div key={entry.player}>
-          {index + 1}. {entry.player} — {entry.wins} wins
-        </div>
-      ))}
+      {leaders.length === 0 ? (
+        <p className="empty-message">No leaderboard data available.</p>
+      ) : (
+        leaders.slice(0, 20).map((entry, index) => (
+          <div className="leaderboard-item" key={entry.player}>
+            <strong>#{index + 1}</strong> {entry.player} — {entry.wins} wins
+          </div>
+        ))
+      )}
     </div>
   );
 }
