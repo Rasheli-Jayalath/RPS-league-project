@@ -10,6 +10,23 @@ const api = axios.create({
 });
 
 export const getMatches = async () => {
-  const response = await api.get("/history");
-  return response.data.data;
+  let allMatches: any[] = [];
+  let nextPath = "/history";
+
+  try {
+    while (nextPath) {
+      const response = await api.get(nextPath);
+
+      const pageData = response.data.data;
+      allMatches = allMatches.concat(pageData);
+
+      nextPath = response.data.next ?? null;
+    }
+
+    return allMatches;
+
+  } catch (error) {
+    console.error("Error fetching history:", error);
+    throw error;
+  }
 };

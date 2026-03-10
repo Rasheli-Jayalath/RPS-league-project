@@ -1,6 +1,7 @@
 import LatestMatches from "./components/LatestMatches";
 import PlayerSearch from "./components/PlayerSearch";
 import TodayLeaderboard from "./components/TodayLeaderboard";
+import HistoricalLeaderboard from "./components/HistoricalLeaderboard";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <LatestMatches />
       <PlayerSearch />
       <TodayLeaderboard />
+      <HistoricalLeaderboard />
     </div>
   );
 }
